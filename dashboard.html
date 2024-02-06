@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventplanner</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="../Frontend/dashboard.html">Eventplanner</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a id ="eventLink" class="nav-link" href="#meineEventsContent">Meine Events</a>
+                </li>                
+                <li class="nav-item">
+                    <a class="nav-link" href="#termineContent">Termine</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#profileModal">Profile</a>
+                </li>
+
+                <li class="nav-item ml-5">
+                    <a id="logoutLink" class="nav-link abmelden" href="#">Abmelden</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+
+    <!-- Event-Funktionen -->
+
+
+    <br>    
+    <div id="eventcontainer2" class="container-fluid">
+        <div class="row mt-3">
+            <div id ="container_bouton" class="col-md-6 text-center">
+                <button class="btn btn-info" data-toggle="modal" data-target="#createEventModal">Event erstellen</button>
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#searchModal">Event suchen</button>
+            </div>
+    
+            <div class="col-md-5">
+                <h2 class="text-left">Verfügbare Events</h2>
+                <br>
+                <div id="eventsList" class="text-left">
+                    
+                </div>
+            </div>
+        </div>
+    </div>   
+
+
+
+    <!-- Benutzerprofil-Formular -->
+
+    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+               
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="username3">Username:</label>
+                            <input type="text" class="form-control" id="username3" placeholder="Benutzernamen eingeben">
+                        </div>
+                        <div class="form-group">
+                            <label for="email3">E-Mail:</label>
+                            <input type="email" class="form-control" id="email3" placeholder="E-Mail eingeben">
+                        </div>
+                        <button id="updateProfileButton" type="button" class="btn btn-primary" onclick="updateProfile(event)">Aktualisieren</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal für die Event-Suche -->
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Event suchen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form  id="searchForm" onsubmit="submitSearchForm(event)">
+                        <div class="form-group">
+                            <label for="eventId">Event ID:</label>
+                            <input type="text" class="form-control" id="eventId" placeholder="Event-ID eingeben" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Suchen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal für die Event-Erstellung -->
+
+
+    <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createEventModalLabel">Neues Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="createEventForm" onsubmit="createEvent25(event)">
+                        <div class="form-group">
+                            <label for="eventName">Name:</label>
+                            <input type="text" class="form-control" id="eventName" placeholder="Event-Name eingeben" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDate">Datum:</label>
+                            <input type="date" class="form-control" id="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">Anfangszeit:</label>
+                            <input type="time" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">Endzeit:</label>
+                            <input type="time" class="form-control" id="endTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventStatus">Status:</label>
+                            <select class="form-control" id="eventStatus" required>
+                                <option value="" disabled selected>-</option>
+                                <option value="Offen">Offen</option>
+                                <option value="Geschlossen">Geschlossen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDescription">Beschreibung:</label>
+                            <textarea class="form-control" id="eventDescription" placeholder="Eventbeschreibung eingeben" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Event erstellen</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal für meine Events -->
+
+
+    <div id="meineEventsContent" class="container-fluid">
+
+    </div>
+
+    <!-- Modal für meine Termine -->
+    
+    <div id="termineContent" class="container-fluid">
+
+    </div>
+
+
+    <!-- Modal für die Teilnehmerliste -->
+
+
+    <div class="modal fade" id="participantListModal" tabindex="-1" role="dialog" aria-labelledby="participantListModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="participantListModalLabel">Liste der Teilnehmer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="participantListModalBody">
+  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="./javaScript/private.js"></script>
+    <script src="./javaScript/index.js"></script>
+    
+
+
+</body>
+
+</html>

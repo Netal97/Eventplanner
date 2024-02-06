@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventplanner</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="../Frontend/index.html">Eventplanner</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Anmelden</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-toggle="modal" data-target="#signupModal">Einloggen</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <br>
+
+    <!-- Event-Funktionen -->
+
+    <div class="container-fluid">
+        <div class="row mt-3">
+            <div id ="container_bouton" class="col-md-6 text-center">
+                <button class="btn btn-info" data-toggle="modal" data-target="#createEventModal">Event erstellen</button>
+                <button class="btn btn-secondary" data-toggle="modal" data-target="#searchModal">Event suchen</button>
+            </div>
+    
+            <div class="col-md-5">
+                <h2 class="text-left">Verfügbare Events</h2>
+                <br>
+                <div id="eventsList" class="text-left">
+
+                </div>
+            </div>
+        </div>
+    </div>   
+    
+    
+    <!-- Modal für die Verbindung -->
+
+
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+    aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Anmelden</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="loginForm" onsubmit="submitLoginForm(event)">
+                        <div class="form-group">
+                            <label for="email">E-Mail:</label>
+                            <input type="email" class="form-control" id="email" placeholder="Geben Sie Ihre E-Mail-Adresse ein" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Passwort:</label>
+                            <input type="password" class="form-control" id="password" placeholder="Geben Sie Ihr Passwort ein" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Anmelden</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Modal für die Einloggen -->
+
+
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="signupModalLabel">Einloggen</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="signupForm" onsubmit="submitRegistrationForm(event)">
+
+                    <div class="form-group">
+                        <label for="username">Benutzername:</label>
+                        <input type="text" class="form-control" id="username" placeholder="Geben Sie einen Benutzernamen ein" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email2">E-Mail:</label>
+                        <input type="email" class="form-control" id="email2" placeholder="Geben Sie Ihre E-Mail-Adresse ein" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">Passwort:</label>
+                        <input type="password" class="form-control" id="password2" placeholder="Geben Sie ein Passwort ein" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Einloggen</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Modal für die Event-Suche -->
+
+
+    <div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Event suchen</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form  id="searchForm" onsubmit="submitSearchForm(event)">
+                        <div class="form-group">
+                            <label for="eventId">Event ID:</label>
+                            <input type="text" class="form-control" id="eventId" placeholder="Event-ID eingeben" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Suchen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal für die Event-Erstellung -->
+
+    <div class="modal fade" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createEventModalLabel">Neues Event</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="createEventForm" onsubmit="createEvent25(event)">
+                        <div class="form-group">
+                            <label for="eventName">Name:</label>
+                            <input type="text" class="form-control" id="eventName" placeholder="Event-Name eingeben" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDate">Datum:</label>
+                            <input type="date" class="form-control" id="eventDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">Anfangszeit:</label>
+                            <input type="time" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">Endzeit:</label>
+                            <input type="time" class="form-control" id="endTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventStatus">Status:</label>
+                            <select class="form-control" id="eventStatus" required>
+                                <option value="" disabled selected>-</option>
+                                <option value="Offen">Offen</option>
+                                <option value="Geschlossen">Geschlossen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDescription">Beschreibung:</label>
+                            <textarea class="form-control" id="eventDescription" placeholder="Eventbeschreibung eingeben" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Event erstellen</button>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="./javaScript/index.js"></script>
+
+
+</body>
+
+</html>
